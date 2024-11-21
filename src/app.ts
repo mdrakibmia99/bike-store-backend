@@ -18,9 +18,17 @@ app.use('/api/orders', orderRoutes);
 app.get('/',(req:Request,res:Response)=>{
     res.send("Welcome to bike store server...")
 })
+
+app.all('*',(req:Request,res:Response)=>{
+    res.status(400).json({
+        success: false,
+        message: "Route Not Found"
+   
+      });
+})
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-unused-vars, @typescript-eslint/no-unused-vars
 app.use((error:any,req:Request,res:Response,next:NextFunction)=>{
-    res.status(500).json({
+    res.status(400).json({
         success: false,
         message: (error?.name =="ZodError" || error?.name =="ValidationError")? 'Validation Failed':error?.name,
         error: error || 'ServerError',

@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { orderService } from './order.service';
 
 // create a controller for create o order
-const createOrder = async (req: Request, res: Response) => {
+const createOrder = async (req: Request, res: Response,next:NextFunction) => {
   try {
     // get data from body
     const payload = req.body;
@@ -18,16 +18,17 @@ const createOrder = async (req: Request, res: Response) => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err?.name || 'Resource not found',
-      error: err || 'ServerError',
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    });
+    next(err)
+    // res.status(500).json({
+    //   success: false,
+    //   message: err?.name || 'Resource not found',
+    //   error: err || 'ServerError',
+    //   stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    // });
   }
 };
 // create a controller for get total revenue
-const getTotalRevenue = async (req: Request, res: Response) => {
+const getTotalRevenue = async (req: Request, res: Response,next:NextFunction) => {
   try {
     // create a bike use service function
     const result = await orderService.getTotalRevenue();
@@ -40,12 +41,13 @@ const getTotalRevenue = async (req: Request, res: Response) => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err?.name || 'Resource not found',
-      error: err || 'ServerError',
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    });
+    next(err)
+    // res.status(500).json({
+    //   success: false,
+    //   message: err?.name || 'Resource not found',
+    //   error: err || 'ServerError',
+    //   stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    // });
   }
 };
 
