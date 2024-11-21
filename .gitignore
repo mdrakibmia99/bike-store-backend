@@ -5,4 +5,3 @@ dist
 src/modules
 src/app
 src/app.ts
-src/server.ts
