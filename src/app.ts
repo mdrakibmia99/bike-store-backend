@@ -1,7 +1,8 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import bikeRoutes from './modules/bikes/bike.route';
 import orderRoutes from './modules/orders/order.route';
+
 
 const app: Application = express();
 
@@ -16,6 +17,15 @@ app.use('/api/products', bikeRoutes);
 app.use('/api/orders', orderRoutes);
 app.get('/',(req:Request,res:Response)=>{
     res.send("Welcome to bike store server...")
+})
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, no-unused-vars, @typescript-eslint/no-unused-vars
+app.use((error:any,req:Request,res:Response,next:NextFunction)=>{
+    res.status(500).json({
+        success: false,
+        message: (error?.name =="ZodError" || error?.name =="ValidationError")? 'Validation Failed':error?.name,
+        error: error || 'ServerError',
+        stack:  error?.stack 
+      });
 })
 
 export default app;

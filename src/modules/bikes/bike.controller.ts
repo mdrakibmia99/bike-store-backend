@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { bikeService } from './bike.service';
 import bikeValidationSchema from './bike.validation';
 
-const createBike = async (req: Request, res: Response) => {
+const createBike = async (req: Request, res: Response,next:NextFunction) => {
   try {
     // get data from body
     const payload = req.body;
@@ -18,18 +18,19 @@ const createBike = async (req: Request, res: Response) => {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err?.name || 'Validation Failed',
-      error: err || 'ServerError',
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    });
+  } catch (error: any) {
+    next(error)
+    // res.status(500).json({
+    //   success: false,
+    //   message: err?.name || 'Validation Failed',
+    //   error: err || 'ServerError',
+    //   stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    // });
   }
 };
 
 // create a controller for get all bikes
-const getBikes = async (req: Request, res: Response) => {
+const getBikes = async (req: Request, res: Response,next:NextFunction) => {
   try {
     //  get bike use bike service function
     const result = await bikeService.getBikes();
@@ -41,18 +42,19 @@ const getBikes = async (req: Request, res: Response) => {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err?.name || 'Resource not found',
-      error: err || 'ServerError',
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    });
+  } catch (error: any) {
+    next(error)
+    // res.status(500).json({
+    //   success: false,
+    //   message: err?.name || 'Resource not found',
+    //   error: err || 'ServerError',
+    //   stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    // });
   }
 };
 
 // create a controller for get specific bikes
-const getSpecificBike = async (req: Request, res: Response) => {
+const getSpecificBike = async (req: Request, res: Response,next:NextFunction) => {
   try {
     // get id of a bike
     const productId = req.params.productId;
@@ -66,17 +68,18 @@ const getSpecificBike = async (req: Request, res: Response) => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err?.name || 'Resource not found',
-      error: err || 'ServerError',
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    });
+    next(err)
+    // res.status(500).json({
+    //   success: false,
+    //   message: err?.name || 'Resource not found',
+    //   error: err || 'ServerError',
+    //   stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    // });
   }
 };
 
 // create a controller for update bikes
-const updateBike = async (req: Request, res: Response) => {
+const updateBike = async (req: Request, res: Response,next:NextFunction) => {
   try {
     // get bike id
     const productId = req.params.productId;
@@ -91,17 +94,18 @@ const updateBike = async (req: Request, res: Response) => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err?.name || 'Resource not found',
-      error: err || 'ServerError',
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    });
+    next(err)
+    // res.status(500).json({
+    //   success: false,
+    //   message: err?.name || 'Resource not found',
+    //   error: err || 'ServerError',
+    //   stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    // });
   }
 };
 
 // create a controller for delete bike
-const deleteBike = async (req: Request, res: Response) => {
+const deleteBike = async (req: Request, res: Response,next:NextFunction) => {
   try {
     // get id from parameters
     const productId = req.params.productId;
@@ -115,12 +119,13 @@ const deleteBike = async (req: Request, res: Response) => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err?.name || 'Resource not found',
-      error: err || 'ServerError',
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    });
+    next(err)
+    // res.status(500).json({
+    //   success: false,
+    //   message: err?.name || 'Resource not found',
+    //   error: err || 'ServerError',
+    //   stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    // });
   }
 };
 
