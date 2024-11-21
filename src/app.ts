@@ -22,7 +22,7 @@ app.get('/', (req: Request, res: Response) => {
 
 // if client hit wrong route then show route not found message 
 app.all('*', (req: Request, res: Response) => {
-  res.status(400).json({
+  res.status(404).json({
     success: false,
     message: 'Route Not Found',
   });
