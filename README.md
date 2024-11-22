@@ -1,3 +1,6 @@
+### **Live Project Link:**
+ [Backend Live link](https://bike-store-gamma.vercel.app/)
+
 ### **Objective:**
 
 Develop an Express application with TypeScript, integrating MongoDB with Mongoose to manage a Bike Store. Ensure data integrity using Mongoose schema validation.
@@ -13,6 +16,8 @@ npm install
 ```
 ---
 
+
+
 #### Next:
 
 create .env file in root dir (bike-store-backend is root dir) and set database uri
@@ -22,6 +27,10 @@ DATABASE_URL=YOUR_MONGODB_URI
 PORT=5000
 ```
 ---
+#### Run Project:
+```
+npm run start:dev 
+```
 
 ## **Check API**
 
