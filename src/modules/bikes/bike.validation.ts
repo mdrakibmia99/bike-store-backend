@@ -13,6 +13,7 @@ export const updateBikeDataValidation = z.object({
     .number()
     .min(0, { message: 'Quantity cannot be less than 0' })
     .optional(),
+    inStock:z.boolean().optional()
 });
 
 const bikeValidationSchema = z.object({
