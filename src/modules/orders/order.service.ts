@@ -4,7 +4,10 @@ import Order from './order.model';
 
 // create this service for create a order
 const createOrder = async (payload: IOrder) => {
+  // find bike data use id 
   const getBikeById = await Bike.findById(payload?.product);
+
+  // if bike data not found then show this error 
   if (!getBikeById) {
     const result = {
       status: false,
@@ -12,6 +15,7 @@ const createOrder = async (payload: IOrder) => {
     };
     return result;
   }
+  // if main data quantity will be getterthan from payload quantity 
   if (getBikeById.quantity < payload?.quantity) {
     const result = {
       status: false,
@@ -19,7 +23,7 @@ const createOrder = async (payload: IOrder) => {
     };
     return result;
   }
-
+  // if payload totalprice not equal to payload totaldata then this function work
   if (payload?.totalPrice !== getBikeById?.price * payload.quantity) {
     const result = {
       status: false,
@@ -27,6 +31,8 @@ const createOrder = async (payload: IOrder) => {
     };
     return result;
   }
+
+  // if every thing is okk then quantity will be reduce from main data and then it will be save
   getBikeById.quantity -= payload.quantity;
   if (getBikeById.quantity === 0) {
     getBikeById.inStock = false;
