@@ -10,11 +10,7 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
     // create a bike use service function
     const result = await orderService.createOrder(payload);
     // send response
-    res.status(201).json({
-      success: true,
-      message: 'Order  created successfully',
-      data: result,
-    });
+    res.status(201).json({ ...result });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {

@@ -14,16 +14,20 @@ const orderSchema = new Schema<IOrder>(
       },
       immutable: true,
     },
-    product: { type: Schema.Types.ObjectId, ref: 'Bike', required: true },
+    product: {
+      type: Schema.Types.ObjectId,
+      ref: 'Bike',
+      required: [true, 'product id  is required'],
+    },
     quantity: {
       type: Number,
       min: [0, 't can not be less than 0 '],
-      required: true,
+      required: [true, 'quantity is required'],
     },
     totalPrice: {
       type: Number,
       min: [0, 'total price can not be less than 0 '],
-      required: true,
+      required: [true, 'total price is required'],
     },
   },
   {

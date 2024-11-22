@@ -15,12 +15,12 @@ app.use('/api/products', bikeRoutes);
 // this api order (get,post,update,delete)
 app.use('/api/orders', orderRoutes);
 
-// root route show welcome message 
+// root route show welcome message
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to bike store server...');
 });
 
-// if client hit wrong route then show route not found message 
+// if client hit wrong route then show route not found message
 app.all('*', (req: Request, res: Response) => {
   res.status(404).json({
     success: false,
@@ -29,7 +29,7 @@ app.all('*', (req: Request, res: Response) => {
   });
 });
 
-// create a global error function 
+// create a global error function
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-unused-vars, @typescript-eslint/no-unused-vars
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   res.status(400).json({

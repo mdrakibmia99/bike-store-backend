@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { bikeService } from './bike.service';
-import bikeValidationSchema from './bike.validation';
+import bikeValidationSchema, {
+  updateBikeDataValidation,
+} from './bike.validation';
 
 const createBike = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -26,8 +28,9 @@ const createBike = async (req: Request, res: Response, next: NextFunction) => {
 // create a controller for get all bikes
 const getBikes = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const { searchTerm } = req.query;
     //  get bike use bike service function
-    const result = await bikeService.getBikes();
+    const result = await bikeService.getBikes(searchTerm as string);
     // send response
     res.status(200).json({
       success: true,
@@ -38,12 +41,6 @@ const getBikes = async (req: Request, res: Response, next: NextFunction) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     next(error);
-    // res.status(500).json({
-    //   success: false,
-    //   message: err?.name || 'Resource not found',
-    //   error: err || 'ServerError',
-    //   stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    // });
   }
 };
 
@@ -76,7 +73,8 @@ const updateBike = async (req: Request, res: Response, next: NextFunction) => {
     // get bike id
     const productId = req.params.productId;
     const body = req.body;
-    const result = await bikeService.updateBike(productId, body);
+    const validBody = updateBikeDataValidation.parse(body);
+    const result = await bikeService.updateBike(productId, validBody);
     // send response
     res.status(201).json({
       success: true,

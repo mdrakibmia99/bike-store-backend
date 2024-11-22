@@ -1,10 +1,44 @@
+import Bike from '../bikes/bike.model';
 import { IOrder } from './order.interface';
 import Order from './order.model';
 
 // create this service for create a order
-const createOrder = async (payload: IOrder): Promise<IOrder> => {
+const createOrder = async (payload: IOrder) => {
+  const getBikeById = await Bike.findById(payload?.product);
+  if (!getBikeById) {
+    const result = {
+      status: false,
+      message: 'Car not found!! please check your product id',
+    };
+    return result;
+  }
+  if (getBikeById.quantity !== payload?.quantity) {
+    const result = {
+      status: false,
+      message: `Insufficient stock, Stock available only ${getBikeById.quantity}`,
+    };
+    return result;
+  }
+
+  if (payload?.totalPrice !== getBikeById?.price * payload.quantity) {
+    const result = {
+      status: false,
+      message: `Please send the correct total price (product price * quantity)`,
+    };
+    return result;
+  }
+  getBikeById.quantity -= payload.quantity;
+  if (getBikeById.quantity === 0) {
+    getBikeById.inStock = false;
+  }
+  await getBikeById.save();
+
   const result = await Order.create(payload);
-  return result;
+  return {
+    success: true,
+    message: 'Order  created successfully',
+    data: result,
+  };
 };
 // create this service for get total revenue
 const getTotalRevenue = async () => {
