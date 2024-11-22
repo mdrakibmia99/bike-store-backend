@@ -65,6 +65,9 @@ const getTotalRevenue = async () => {
       },
     },
   ]);
+  if(result.length ===0){
+    return { "totalRevenue": 0}
+  }
 
   return result[0];
 };
