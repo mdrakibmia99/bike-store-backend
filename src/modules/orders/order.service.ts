@@ -12,7 +12,7 @@ const createOrder = async (payload: IOrder) => {
     };
     return result;
   }
-  if (getBikeById.quantity !== payload?.quantity) {
+  if (getBikeById.quantity < payload?.quantity) {
     const result = {
       status: false,
       message: `Insufficient stock, Stock available only ${getBikeById.quantity}`,
@@ -23,7 +23,7 @@ const createOrder = async (payload: IOrder) => {
   if (payload?.totalPrice !== getBikeById?.price * payload.quantity) {
     const result = {
       status: false,
-      message: `Please send the correct total price (product price * quantity)`,
+      message: `Please send the correct total price (product price * quantity)[totalPrice will be ${getBikeById?.price * payload.quantity}]`,
     };
     return result;
   }
