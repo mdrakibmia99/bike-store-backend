@@ -65,9 +65,9 @@ const getTotalRevenue = async () => {
       },
     },
   ]);
-  return result;
-};
 
+  return result[0];
+};
 export const orderService = {
   createOrder,
   getTotalRevenue,
