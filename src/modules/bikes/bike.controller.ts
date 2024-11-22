@@ -55,11 +55,18 @@ const getSpecificBike = async (
     const productId = req.params.productId;
     const result = await bikeService.getSpecificBike(productId);
     // send response
-    res.status(201).json({
-      success: true,
-      message: 'Bike retrieved successfully',
-      data: result,
+    if(result){
+      res.status(201).json({
+        success: true,
+        message: 'Bike retrieved successfully',
+        data: result,
+      });
+    }
+    res.status(404).json({
+      success: false,
+      message: 'Can not find any bike data',
     });
+   
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
