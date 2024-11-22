@@ -20,12 +20,12 @@ const orderSchema = new Schema<IOrder>(
     },
     quantity: {
       type: Number,
-      min: [0, 't can not be less than 0 '],
+      min: [1, 'quantity can not be less than 1 '],
       required: [true, 'quantity is required'],
     },
     totalPrice: {
       type: Number,
-      min: [0, 'total price can not be less than 0 '],
+      min: [1, 'total price can not be less than 1 '],
       required: [true, 'total price is required'],
     },
   },
